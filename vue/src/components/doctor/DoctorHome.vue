@@ -7,7 +7,6 @@
       </ul>
     </div>
   </nav>
-  <!-- the router view is where all the routes are rendered -->
   <router-view />
 </template>
 

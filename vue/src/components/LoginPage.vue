@@ -65,11 +65,21 @@ export default {
           password: this.password,
         });
         if (response.status === 201) {
-          console.log(response);
+          const { role_id, id } = response.data.user;
+
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("id", response.data.user.id);
+          localStorage.setItem("id", id);
+          localStorage.setItem("role_id", role_id);
+
+          if (role_id === 1) {
+            this.$router.push(`/admin/home/${id}`);
+          } else if (role_id === 2) {
+            this.$router.push(`/doctor/home/${id}`);
+          } else {
+            this.$router.push(`/patient/home/${id}`);
+          }
+
           this.setCurrentUser(response.data.user);
-          this.$router.push(`/home/${response.data.user.id}`);
         }
       } catch (error) {
         this.errors = error.response.data.message;

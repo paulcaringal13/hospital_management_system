@@ -1,5 +1,6 @@
 <template>
-  <nav class="navbar">
+  qweqweqwe
+  <nav class="navbar bg-red-500">
     <div class="container d-flex justify-content-end">
       <ul class="nav">
         ADMIN
@@ -7,7 +8,6 @@
       </ul>
     </div>
   </nav>
-  <!-- the router view is where all the routes are rendered -->
   <router-view />
 </template>
 
