@@ -9,7 +9,7 @@
         <div className="form-group">
           <input
             type="text"
-            className="form-control w-full px-4 py-3 text-xs outline outline-1 focus:outline-2 rounded-full"
+            className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
             id="name"
             v-model="name"
             @input="clearErrors('name')"
@@ -20,7 +20,7 @@
         <div class="form-group mb-3">
           <input
             type="email"
-            className="form-control w-full px-4 py-3 text-xs outline outline-1 focus:outline-2 rounded-full"
+            className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
             id="email"
             v-model="email"
             @input="clearErrors('email')"
@@ -34,7 +34,7 @@
         <div class="form-group mb-3">
           <input
             type="password"
-            className="form-control w-full px-4 py-3 text-xs outline outline-1 focus:outline-2 rounded-full"
+            className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
             id="password"
             v-model="password"
             @input="clearErrors('password')"
@@ -48,13 +48,23 @@
         <div class="form-group mb-3">
           <input
             type="password"
-            className="form-control w-full px-4 py-3 text-xs outline outline-1 focus:outline-2 rounded-full"
+            className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
             id="confirm"
             v-model="confirm"
             placeholder="Confirm Password"
             required
           />
         </div>
+        <select
+          className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
+          @change="setRole($event)"
+        >
+          <option selected className="text-gray-500">
+            Select Account Type
+          </option>
+          <option value="2">Doctor</option>
+          <option value="3">Patient</option>
+        </select>
         <button
           type="submit"
           className="bg-blue-500 h-full rounded-full text-white px-4 py-2"
@@ -79,6 +89,7 @@ export default {
       email: "",
       password: "",
       confirm: "",
+      role_id: 0,
       errors: {},
     };
   },
@@ -91,6 +102,7 @@ export default {
             name: this.name,
             email: this.email,
             password: this.password,
+            role_id: this.role_id,
             password_confirmation: this.confirm,
           }
         );
@@ -98,13 +110,17 @@ export default {
           this.name = "";
           this.email = "";
           this.password = "";
-          this.confirm = "";
+          (this.role_id = 0), (this.confirm = "");
           alert("Registration successful");
           this.$router.push("/");
         }
       } catch (error) {
         this.errors = error.response.data.errors;
       }
+    },
+
+    setRole(event) {
+      this.role_id = event.target.value;
     },
     clearErrors(field) {
       this.errors[field] = null;

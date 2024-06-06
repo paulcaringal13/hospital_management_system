@@ -22,6 +22,7 @@ class AuthController extends Controller
             [
                 'name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
+                'role_id' => 'required',
                 'password' => 'required|string|min:6|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             ],
             [
@@ -35,6 +36,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
         ]);
 
