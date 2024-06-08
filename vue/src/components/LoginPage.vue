@@ -1,5 +1,5 @@
 <template>
-  <div className=" w-fit px-6 py-8 rounded-lg shadow-md bg-white">
+  <div className="w-fit px-6 py-8 rounded-lg shadow-md bg-white">
     <div className="flex flex-col gap-3 w-fit items-center">
       <h4 className="text-xl font-bold">Login Account</h4>
       <form

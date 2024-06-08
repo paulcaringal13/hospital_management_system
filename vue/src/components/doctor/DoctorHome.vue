@@ -1,17 +1,22 @@
 <template>
-  <nav class="navbar">
-    <div class="container d-flex justify-content-end">
-      <ul class="nav">
-        DOCTOR
-        <router-link to="/logout" class="col-6">Logout</router-link>
-      </ul>
+  <div className="h-full w-full flex flex-col">
+    <NavbarComponent />
+    <div className="flex flex-row grow">
+      <SidebarComponent />
+      <router-view />
     </div>
-  </nav>
-  <router-view />
+  </div>
 </template>
 
 <script>
+import NavbarComponent from "../NavbarComponent.vue";
+import SidebarComponent from "../SidebarComponent.vue";
+
 export default {
-  name: "DoctorHome",
+  name: "AdminHome",
+  components: {
+    NavbarComponent,
+    SidebarComponent,
+  },
 };
 </script>

@@ -5,6 +5,7 @@ import RegisterPage from "../components/RegisterPage.vue";
 import DoctorHome from "../components/doctor/DoctorHome.vue";
 import PatientHome from "../components/patient/PatientHome.vue";
 import AdminHome from "../components/admin/AdminHome.vue";
+import AdminPatients from "../components/admin/AdminPatients.vue";
 
 const routes = [
   //
@@ -60,6 +61,14 @@ const routes = [
     path: "/admin/home/:id",
     component: AdminHome,
     name: "admin-home",
+    beforeEnter: guardRoute,
+  },
+
+  // ADMIN PATIENTS ROUTE
+  {
+    path: "/admin/patients/:id",
+    component: AdminPatients,
+    name: "admin-patients",
     beforeEnter: guardRoute,
   },
 

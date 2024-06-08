@@ -8,10 +8,15 @@ export default createStore({
       id: localStorage.getItem("id"),
       email: localStorage.getItem("email"),
     },
+    minimized: false,
   },
   mutations: {
     setUser(state, currentUser) {
       state.user = currentUser;
+    },
+
+    setMinimize(state) {
+      state.minimized = !state.minimized;
     },
   },
 

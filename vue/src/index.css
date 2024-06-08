@@ -2,3 +2,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+.va-popover__content {
+  padding: 6px;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border-radius: 0.125rem;
+  margin-left: 8px;
+}
