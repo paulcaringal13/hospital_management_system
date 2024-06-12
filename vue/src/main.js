@@ -19,6 +19,9 @@ app.component("v-icon", OhVueIcon);
 app.use(
   createVuestic({
     config: {
+      sizesConfig: {
+        sizes: { small: 576, medium: 768, large: 1500, xlarge: 1700 },
+      },
       colors: {
         variables: {
           // Default colors

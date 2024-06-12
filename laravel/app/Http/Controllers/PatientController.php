@@ -3,83 +3,100 @@
 namespace App\Http\Controllers;
 
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $patients = User::where('role', 'Patient')->get();
+
+        $patients->load('patient');
+
+        return response()->json($patients);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function update(Request $request, $id)
     {
-        //
+        $validator = $request->validate(
+            [
+                'name' => 'required|string',
+                'email' => 'required|email|unique:users,email,' . $id . ",id",
+                'contact' => 'required|min:10|max:10|unique:users,contact,' . $id . ",id",
+                'gender' => 'required',
+                'date_of_birth' => 'required|date',
+            ],
+            [
+                'email.unique' => 'The email has already been taken.',
+                'contact.unique' => 'The contact has already been taken.',
+            ]
+        );
+
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'contact' => $request->contact,
+            'email' => $request->email
+        ]);
+
+        $patient = Patient::where('user_id', $id)->firstOrFail();
+
+        $patient->update([
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender
+        ]);
+
+        $response = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'contact' => $user->contact,
+            'email' => $user->email,
+            'role' => $user->role,
+            'date_of_birth' => $patient->date_of_birth,
+            'gender' => $patient->gender,
+        ];
+
+        $patients = User::where('role', 'Patient')->get();
+
+        $patients->load('patient');
+
+        return response([
+            "status" => "Success",
+            "patients" => $patients
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function destroy($id)
     {
-        //
-    }
+        try {
+            // Find the user by id
+            $user = User::findOrFail($id);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Patient $patient)
-    {
-        //
-    }
+            // Check if the user has a role of 'Patient'
+            if ($user->role === 'Patient') {
+                // Delete the associated patient record
+                Patient::where('user_id', $id)->delete();
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Patient $patient)
-    {
-        //
-    }
+            // Delete the user
+            $user->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Patient $patient)
-    {
-        //
-    }
+            // Retrieve all remaining patients
+            $patients = User::where('role', 'Patient')->get();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Patient $patient)
-    {
-        //
+            // Load the associated patient data
+            $patients->load('patient');
+
+            return response([
+                "status" => "Success",
+                "patients" => $patients
+            ]);
+        } catch (\Exception $e) {
+            return response([
+                "error" => $e->getMessage()
+            ], 500);
+        }
     }
 }
