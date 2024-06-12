@@ -65,18 +65,18 @@ export default {
           password: this.password,
         });
         if (response.status === 201) {
-          const { role_id, id } = response.data.user;
+          const { role, id } = response.data.user;
 
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("id", id);
-          localStorage.setItem("role_id", role_id);
+          localStorage.setItem("role", role);
 
-          if (role_id === 1) {
-            this.$router.push(`/admin/home/${id}`);
-          } else if (role_id === 2) {
-            this.$router.push(`/doctor/home/${id}`);
-          } else {
-            this.$router.push(`/patient/home/${id}`);
+          if (role == "Admin") {
+            this.$router.push(`/admin/appointments/${id}`);
+          } else if (role == "Doctor") {
+            this.$router.push(`/doctor/appointments/${id}`);
+          } else if (role == "Patient") {
+            this.$router.push(`/patient/appointments/${id}`);
           }
 
           this.setCurrentUser(response.data.user);

@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
 
 * {
   font-family: "Montserrat", sans-serif;
@@ -14,4 +15,28 @@
   line-height: 1rem;
   border-radius: 0.125rem;
   margin-left: 8px;
+}
+
+.va-toast {
+  width: fit-content;
+  margin-right: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 250ms;
+  transform: translateY(-10px);
+}
+
+.va-toast__title {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+
+.va-toast__content {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 450;
+}
+
+.va-dropdown__content {
+  width: fit-content;
 }

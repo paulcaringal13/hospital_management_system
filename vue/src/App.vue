@@ -1,6 +1,6 @@
 <template>
   <div
-    className="text-slate-800 h-screen max-h-screen flex items-center justify-center bg-slate-100/75"
+    className=" h-screen max-h-screen flex items-center justify-center bg-slate-100/75"
   >
     <router-view />
   </div>
