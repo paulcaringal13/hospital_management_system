@@ -49,7 +49,7 @@ export default {
         {
           title: "Patients",
           icon: "fa-user-injured",
-          route: `/admin/patients/${localStorage.getItem("id")}`,
+          route: /admin/patients/`${localStorage.getItem("id")}`,
         },
         { title: "Doctors", icon: "fa-user-md" },
         { title: "Appointments", icon: "ri-calendar-2-line" },
@@ -68,5 +68,63 @@ export default {
       this.$router.push(route);
     },
   },
+  mounted() {
+    if (localStorage.getItem("role") == "Admin") {
+      this.items = [
+        {
+          title: "Patients",
+          icon: "fa-user-injured",
+          route: `/admin/patients/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Doctors",
+          icon: "fa-user-md",
+          route: `/admin/doctors/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Appointments",
+          icon: "ri-calendar-2-line",
+          route: `/admin/appointments/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Records",
+          icon: "fa-file-medical-alt",
+          route: `/admin/records/${localStorage.getItem("id")}`,
+        },
+      ];
+    } else if (localStorage.getItem("role") == "Doctor") {
+      this.items = [
+        {
+          title: "Patients",
+          icon: "fa-user-injured",
+          route: `/doctor/patients/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Appointments",
+          icon: "ri-calendar-2-line",
+          route: `/doctor/appointments/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Records",
+          icon: "fa-file-medical-alt",
+          route: `/doctor/records/${localStorage.getItem("id")}`,
+        },
+      ];
+    } else {
+      this.items = [
+        {
+          title: "Appointments",
+          icon: "ri-calendar-2-line",
+          route: `/patient/appointments/${localStorage.getItem("id")}`,
+        },
+        {
+          title: "Records",
+          icon: "fa-file-medical-alt",
+          route: `/patient/records/${localStorage.getItem("id")}`,
+        },
+      ];
+    }
+  },
 };
 </script>
+Write to GROUP 3 - ITEW6

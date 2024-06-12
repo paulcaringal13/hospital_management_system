@@ -16,6 +16,9 @@
             placeholder="Enter name"
             required
           />
+          <small class="text-red-400 font-semibold" v-if="errors.name">{{
+            errors.name[0]
+          }}</small>
         </div>
         <div class="form-group mb-3">
           <input
@@ -27,7 +30,7 @@
             placeholder="Enter email"
             required
           />
-          <small class="text-danger" v-if="errors.email">{{
+          <small class="text-red-400 font-semibold" v-if="errors.email">{{
             errors.email[0]
           }}</small>
         </div>
@@ -41,7 +44,7 @@
             placeholder="Password"
             required
           />
-          <small class="text-danger" v-if="errors.password">{{
+          <small class="text-red-400 font-semibold" v-if="errors.password">{{
             errors.password[0]
           }}</small>
         </div>
@@ -55,16 +58,38 @@
             required
           />
         </div>
+        <div class="form-group mb-3">
+          <input
+            type="number"
+            className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
+            id="contact"
+            v-model="contact"
+            placeholder="Contact Number"
+            required
+          />
+          <small class="text-red-400 font-semibold" v-if="errors.contact">{{
+            errors.contact[0]
+          }}</small>
+        </div>
         <select
           className="form-control w-full px-3 py-3 text-xs border-b-[1px] border-black focus:outline-none"
-          @change="setRole($event)"
+          @change="setGender($event)"
         >
-          <option selected className="text-gray-500">
-            Select Account Type
-          </option>
-          <option value="2">Doctor</option>
-          <option value="3">Patient</option>
+          <option selected className="text-gray-500">Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
         </select>
+        <small class="text-red-400 font-semibold" v-if="errors.gender">{{
+          errors.gender[0]
+        }}</small>
+        <input
+          type="date"
+          v-model="date_of_birth"
+          class="border-b-[1px] border-black focus:outline-none block w-full px-3 py-3 text-xs"
+        />
+        <small class="text-red-400 font-semibold" v-if="errors.date_of_birth">{{
+          errors.date_of_birth[0]
+        }}</small>
         <button
           type="submit"
           className="bg-blue-500 h-full rounded-full text-white px-4 py-2"
@@ -89,7 +114,9 @@ export default {
       email: "",
       password: "",
       confirm: "",
-      role_id: 0,
+      contact: "",
+      gender: "",
+      date_of_birth: new Date(),
       errors: {},
     };
   },
@@ -102,25 +129,35 @@ export default {
             name: this.name,
             email: this.email,
             password: this.password,
-            role_id: this.role_id,
+            gender: this.gender,
             password_confirmation: this.confirm,
+            date_of_birth: this.date_of_birth,
+            role: "Patient",
+            contact: this.contact,
           }
         );
         if (response.status === 201) {
           this.name = "";
           this.email = "";
           this.password = "";
-          (this.role_id = 0), (this.confirm = "");
-          alert("Registration successful");
+          this.gender = "";
+          this.contact = "";
+          this.date_of_birth = new Date();
           this.$router.push("/");
         }
       } catch (error) {
         this.errors = error.response.data.errors;
+        this.name = "";
+        this.email = "";
+        this.password = "";
+        this.gender = "";
+        this.date_of_birth = new Date();
+        this.contact = "";
       }
     },
 
-    setRole(event) {
-      this.role_id = event.target.value;
+    setGender(event) {
+      this.gender = event.target.value;
     },
     clearErrors(field) {
       this.errors[field] = null;
